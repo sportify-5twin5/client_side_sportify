@@ -35,14 +35,14 @@ import { thead, tbody } from "variables/general";
 import axios from "axios";
 
 
-const Icons=()=> {
+const Matchs=()=> {
   const [tkeys, setkeys] = useState([]);
   const [tContent, setcontent] = useState([{
     className: "",
     data: [],
   }]);
   useEffect(() => {
-    axios.get(`http://localhost:8099/arbitre`)
+    axios.get(`http://localhost:8099/match`)
       .then(res => {
         const value = res.data.results.bindings;
 
@@ -76,7 +76,7 @@ const Icons=()=> {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Arbitre</CardTitle>
+                <CardTitle tag="h4">Matchs</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -121,4 +121,4 @@ const Icons=()=> {
   );
 }
 
-export default Icons;
+export default Matchs;

@@ -23,6 +23,14 @@ import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
+import Matchs from "views/matchs";
+import Sports from "views/Sports";
+import Evenements from "views/Evenements";
+import Trophees from "views/trophee";
+import Villes from "views/ville";
+import Pays from "views/pays";
+import Stades from "views/stade";
+
 
 var dashRoutes = [
   {
@@ -69,53 +77,52 @@ var dashRoutes = [
   },
 
   {
-    path: "/extended-tables",
+    path: "/Evenements",
     name: "Evenements",
     icon: "ui-1_calendar-60 ",
-    component: <TableList />,
+    component: <Evenements />,
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
+    path: "/matchs",
     name: "Matchs",
     icon: "files_paper",
-    component: <TableList />,
+    component: <Matchs />,
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
+    path: "/Sports",
     name: "Sports",
     icon: "design_bullet-list-67",
-    component: <TableList />,
+    component: <Sports />,
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
+    path: "/stades",
     name: "stades",
     icon: "business_bank",
-    component: <TableList />,
-    layout: "/admin",
-  },
-
-  {
-    path: "/extended-tables",
-    name: "Trophees",
-    icon: "objects_diamond",
-    component: <TableList />,
+    component: <Stades />,
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
+    path: "/Pays",
     name: "Pays",
     icon: "location_world ",
-    component: <TableList />,
+    component: <Pays />,
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
+    path: "/villes",
     name: "villes",
     icon: "location_pin",
-    component: <TableList />,
+    component: <Villes />,
+    layout: "/admin",
+  }, 
+  {
+    path: "/Trophees",
+    name: "Trophees",
+    icon: "design_app",
+    component: <Trophees />,
     layout: "/admin",
   },
   
