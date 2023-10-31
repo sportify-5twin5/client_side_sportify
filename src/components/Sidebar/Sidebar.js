@@ -55,15 +55,19 @@ function Sidebar(props) {
           target="_blank"
         >
           <div className="logo-img">
-            <img src={logo} alt="react-logo" />
+          <img
+    src="https://honeybud.in/wp-content/uploads/2022/12/shield.gif"  // Replace with your image URL
+    alt="Arbitre"
+    style={{ width: '150px', height: '30px', Color:'blue' }} 
+  />
           </div>
         </a>
         <a
-          href="https://www.creative-tim.com?ref=nudr-sidebar"
+          href="r"
           className="simple-text logo-normal"
           target="_blank"
         >
-          Creative Tim
+          airfit
         </a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
