@@ -1,21 +1,5 @@
-/*!
-
-=========================================================
-* Now UI Dashboard React - v1.5.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
+import 'assets/css/style.css'
 import { Link, useLocation } from "react-router-dom";
 import {
   Collapse,
@@ -107,7 +91,7 @@ function DemoNavbar(props) {
     // add or remove classes depending if we are on full-screen-maps page or not
     <Navbar
       color={
-        location.pathname.indexOf("full-screen-maps") !== -1 ? "white" : color
+        location.pathname.indexOf("full-screen-maps") !== -1 ? "orange" : color
       }
       expand="lg"
       className={
@@ -116,7 +100,16 @@ function DemoNavbar(props) {
           : "navbar-absolute fixed-top " +
             (color === "transparent" ? "navbar-transparent " : "")
       }
+      
     >
+      <div className="greetings">
+      <span>A</span>
+      <span>I</span>
+      <span>R</span>
+      <span>F</span>
+      <span>I</span>
+      <span>T</span>
+       </div>
       <Container fluid>
         <div className="navbar-wrapper">
           <div className="navbar-toggle">

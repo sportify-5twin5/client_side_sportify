@@ -1,4 +1,3 @@
-
 /*!
 
 =========================================================
@@ -20,13 +19,13 @@ import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    CardTitle,
-    Table,
-    Row,
-    Col,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Table,
+  Row,
+  Col,
 } from "reactstrap";
 
 // core components
@@ -36,15 +35,15 @@ import { thead, tbody } from "variables/general";
 import axios from "axios";
 
 const Icons = () => {
-    const [tkeys, setKeys] = useState([]);
-    const [tContent, setContent] = useState([]);
-    const [tkeysR, setKeysR] = useState([]);
-    const [tContentR, setContentR] = useState([]);
+  const [tkeys, setKeys] = useState([]);
+  const [tContent, setContent] = useState([]);
+  const [tkeysR, setKeysR] = useState([]);
+  const [tContentR, setContentR] = useState([]);
 
-   
   useEffect(() => {
     // Fetch data for the "trophee" table
-    axios.get("http://localhost:8099/arbitre")
+    axios
+      .get("http://localhost:8099/arbitre")
       .then((res) => {
         const value = res.data.results.bindings;
 
@@ -55,9 +54,14 @@ const Icons = () => {
         const content = value.map((val) => {
           const obj = {
             className: "",
-            data: Object.values(val).map((property) => {
-              return property.value.replace("http://www.semanticweb.org/lenovo/ontologies/2023/9/untitled-ontology-2#", "");
-            }).slice(1),
+            data: Object.values(val)
+              .map((property) => {
+                return property.value.replace(
+                  "http://www.semanticweb.org/lenovo/ontologies/2023/9/untitled-ontology-2#",
+                  ""
+                );
+              })
+              .slice(1),
           };
           return obj;
         });
@@ -68,8 +72,9 @@ const Icons = () => {
         console.error(error);
       });
 
-        // Fetch data for the "relationteamtrophee" table
-        axios.get("http://localhost:8099/relationarbitrematch")
+    // Fetch data for the "relationteamtrophee" table
+    axios
+      .get("http://localhost:8099/relationarbitrematch")
       .then((res) => {
         const value = res.data.results.bindings;
 
@@ -81,7 +86,10 @@ const Icons = () => {
           const obj = {
             className: "",
             data: Object.values(val).map((property) => {
-              return property.value.replace("http://www.semanticweb.org/lenovo/ontologies/2023/9/untitled-ontology-2#", "");
+              return property.value.replace(
+                "http://www.semanticweb.org/lenovo/ontologies/2023/9/untitled-ontology-2#",
+                ""
+              );
             }),
           };
           return obj;
@@ -94,98 +102,106 @@ const Icons = () => {
       });
   }, []);
 
-    return (
-        <>
-            <PanelHeader size="sm" />
-            <div className="content">
-                <Row>
-                    <Col xs={12}>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle tag="h4">arbitre</CardTitle>
-                            </CardHeader>
-                            <CardBody>
-                                <Table responsive>
-                                    <thead className="text-primary">
-                                        <tr>
-                                            {tkeys.map((prop, key) => {
-                                                if (key === thead.length - 1)
-                                                    return (
-                                                        <th key={key} className="text-right">
-                                                            {prop}
-                                                        </th>
-                                                    );
-                                                return <th key={key}>{prop}</th>;
-                                            })}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tContent.map((prop, key) => {
-                                            return (
-                                                <tr key={key}>
-                                                    {prop.data.map((prop, key) => {
-                                                        if (key === thead.length - 1)
-                                                            return (
-                                                                <td key={key} className="text-right">
-                                                                    {prop}
-                                                                </td>
-                                                            );
-                                                        return <td key={key}>{prop}</td>;
-                                                    })}
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                    <Col xs={12}>
-                        <Card className="card-plain">
-                            <CardHeader>
-                                <CardTitle tag="h4">relation arbitre match</CardTitle>
-                                <p className="category"> Here is a subtitle for this table</p>
-                            </CardHeader>
-                            <CardBody>
-                                <Table responsive>
-                                    <thead className="text-primary">
-                                        <tr>
-                                            {tkeysR.map((prop, key) => {
-                                                if (key === thead.length - 1)
-                                                    return (
-                                                        <th key={key} className="text-right">
-                                                            {prop}
-                                                        </th>
-                                                    );
-                                                return <th key={key}>{prop}</th>;
-                                            })}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tContentR.map((prop, key) => {
-                                            return (
-                                                <tr key={key}>
-                                                    {prop.data.map((prop, key) => {
-                                                        if (key === thead.length - 1)
-                                                            return (
-                                                                <td key={key} className="text-right">
-                                                                    {prop}
-                                                                </td>
-                                                            );
-                                                        return <td key={key}>{prop}</td>;
-                                                    })}
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </div>
-        </>
-    );
-}
+  return (
+    <>
+      <PanelHeader size="sm" />
+      <div className="content">
+        <Row>
+          <Col xs={12}>
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4" style={{ color: "blue" }}>
+                  <img
+                    src="https://us.123rf.com/450wm/ms10/ms101606/ms10160600028/58020976-arbitre-de-basket-ball-en-cours-d-ex%C3%A9cution-avec-sifflet-dans-sa-bouche-vector-silhouette-de-l.jpg" // Replace with your image URL
+                    alt="Arbitre"
+                    style={{ width: "150px", height: "150px", Color: "blue" }}
+                  />
+                  arbitre
+                </CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Table responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      {tkeys.map((prop, key) => {
+                        if (key === thead.length - 1)
+                          return (
+                            <th key={key} className="text-right">
+                              {prop}
+                            </th>
+                          );
+                        return <th key={key}>{prop}</th>;
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tContent.map((prop, key) => {
+                      return (
+                        <tr key={key}>
+                          {prop.data.map((prop, key) => {
+                            if (key === thead.length - 1)
+                              return (
+                                <td key={key} className="text-right">
+                                  {prop}
+                                </td>
+                              );
+                            return <td key={key}>{prop}</td>;
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col xs={12}>
+            <Card className="card-plain">
+              <CardHeader>
+                <CardTitle tag="h4" style={{ color: "blue" }}>
+                  relation arbitre match
+                </CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Table responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      {tkeysR.map((prop, key) => {
+                        if (key === thead.length - 1)
+                          return (
+                            <th key={key} className="text-right">
+                              {prop}
+                            </th>
+                          );
+                        return <th key={key}>{prop}</th>;
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tContentR.map((prop, key) => {
+                      return (
+                        <tr key={key}>
+                          {prop.data.map((prop, key) => {
+                            if (key === thead.length - 1)
+                              return (
+                                <td key={key} className="text-right">
+                                  {prop}
+                                </td>
+                              );
+                            return <td key={key}>{prop}</td>;
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
 export default Icons;

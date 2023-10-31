@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   Container,
 } from "reactstrap";
 import axios from "axios";
+import PanelHeader from "components/PanelHeader/PanelHeader";
 
 function hexToRGB(hex, alpha) {
   var r = parseInt(hex.slice(1, 3), 16),
@@ -24,6 +25,78 @@ function hexToRGB(hex, alpha) {
 }
 
 function Dashboard() {
+  //script
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const palette = ["#21272f", "#ffbd36", "#ff2629", "#00abe5"];
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const win = { w: window.innerWidth, h: window.innerHeight };
+    let devicePixelRatio = window.devicePixelRatio || 1;
+    const minArc = win.w > 500 ? 3 : 1;
+
+    class Particle {
+      constructor({ x, y }) {
+        this.x = x;
+        this.y = y;
+        this.alpha = 100;
+        this.arc = minArc + Math.random() * 3;
+        this.color = palette[Math.floor(Math.random() * palette.length)];
+        this.arcX = minArc + Math.random() * 2;
+        this.arcY = minArc + Math.random() * 2;
+        this.offset = -2 + Math.random() * 4;
+      }
+      draw(t) {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.newX, this.newY, this.arc, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+        this.newX = this.x + this.arcX * Math.sin(t * this.offset);
+        this.newY = this.y + this.arcY * Math.cos(t * this.offset);
+      }
+    }
+
+    let Particles = [];
+    const num = 12000;
+    let i = 0;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, win.w, win.h);
+      const t = window.performance.now() * 0.001;
+      Particles.forEach((p, i) => {
+        p.draw(t);
+      });
+      requestAnimationFrame(animate);
+    };
+
+    canvas.width = win.w * devicePixelRatio;
+    canvas.height = win.h * devicePixelRatio;
+    canvas.style.width = `${win.w}px`;
+    canvas.style.height = `${win.h}px`;
+
+    ctx.save();
+    ctx.translate(win.w / 2, win.h / 2);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = `bold ${win.w * 0.36}px Arial, Helvetica, sans-serif`;
+    ctx.fillText("K.G", 0, 0);
+    ctx.restore();
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    Particles = [];
+    for (let i = 0; i < num - 1; i++) {
+      const x = Math.round(Math.random() * win.w);
+      const y = Math.round(Math.random() * win.h);
+      if (ctx.getImageData(x, y, 1, 1).data[3] == 255) {
+        Particles.push(new Particle({ x, y }));
+      }
+    }
+
+    animate();
+  }, []);
+
   // State for all the counts
   const [counts, setCounts] = useState({
     trophyCount: 0,
@@ -43,23 +116,24 @@ function Dashboard() {
   useEffect(() => {
     // Define an array of endpoints to fetch data from
     const endpoints = [
-      'trophee',
-      'evenement',
-      'equipe',
-      'match',
-      'pays',
-      'sport',
-      'stade',
-      'ville',
-      'entraineur',
-      'arbitre',
-      'joueur',
-      'supporteur',
+      "trophee",
+      "evenement",
+      "equipe",
+      "match",
+      "pays",
+      "sport",
+      "stade",
+      "ville",
+      "entraineur",
+      "arbitre",
+      "joueur",
+      "supporteur",
     ];
 
     // Create an array of promises to fetch data from each endpoint
-    const promises = endpoints.map(endpoint =>
-      axios.get(`http://localhost:8099/${endpoint}`)
+    const promises = endpoints.map((endpoint) =>
+      axios
+        .get(`http://localhost:8099/${endpoint}`)
         .then((response) => response.data.results.bindings.length)
         .catch((error) => {
           console.error(`Error fetching data for ${endpoint}:`, error);
@@ -68,15 +142,14 @@ function Dashboard() {
     );
 
     // Execute all promises concurrently
-    Promise.all(promises)
-      .then(counts => {
-        // Combine the counts into an object
-        const countsObject = {};
-        endpoints.forEach((endpoint, index) => {
-          countsObject[`${endpoint}Count`] = counts[index];
-        });
-        setCounts(countsObject);
+    Promise.all(promises).then((counts) => {
+      // Combine the counts into an object
+      const countsObject = {};
+      endpoints.forEach((endpoint, index) => {
+        countsObject[`${endpoint}Count`] = counts[index];
       });
+      setCounts(countsObject);
+    });
   }, []);
 
   const dashboard24HoursPerformanceChart = {
@@ -152,25 +225,32 @@ function Dashboard() {
   };
 
   return (
-    <Container style={{ marginTop: '200px' }}>
-      <Row className="justify-content-center">
-      <Col xs={12} md={12}>
-          <Card className="card-chart">
-            <CardHeader>
-              <CardTitle tag="h2">Data Counts Overview</CardTitle>
-            </CardHeader>
-            <CardBody>
-              <div className="chart-area">
-                <Bar
-                  data={dashboard24HoursPerformanceChart.data}
-                  options={dashboard24HoursPerformanceChart.options}
-                />
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <PanelHeader size="sm" />
+      <div class="content">
+        <Row className="justify-content-center">
+          <Col xs={12}>
+            <Card className="card-chart">
+              <CardHeader>
+                <CardTitle tag="h2">Data Counts Overview</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <div className="chart-area">
+                  <Bar
+                    data={dashboard24HoursPerformanceChart.data}
+                    options={dashboard24HoursPerformanceChart.options}
+                  />
+                </div>
+              </CardBody>
+            </Card>{" "}
+            <canvas ref={canvasRef} style={{ width: "5em", height: "5em" }}>
+              Hello
+            </canvas>
+            <p class="category">keybord gods</p>
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 }
 
