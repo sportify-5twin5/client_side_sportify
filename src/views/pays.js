@@ -159,7 +159,7 @@ const pays = () => {
             <Card className="card-plain">
               <CardHeader>
                 <CardTitle tag="h4">relation pays sport</CardTitle>
-                <p className="category"> Here is a subtitle for this table</p>
+                <p className="category"> Relations : DataProperty et ObjectProperty</p>
               </CardHeader>
               <CardBody>
                 <Table responsive>
