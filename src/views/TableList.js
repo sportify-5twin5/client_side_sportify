@@ -28,6 +28,10 @@ import {
     Table,
     Row,
     Col,
+    InputGroup,
+    Input,
+    InputGroupAddon,
+    InputGroupText,
 } from "reactstrap";
 
 // core components
@@ -41,6 +45,18 @@ const RegularTables = () => {
     const [tContent, setContent] = useState([]);
     const [tkeysR, setKeysR] = useState([]);
     const [tContentR, setContentR] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
+  
+    const handleSearch = (searchInput) => {
+      setSearchText(searchInput);
+      const filteredData = tContent.filter((item) =>
+        item.data.some((value) =>
+          value.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      );
+      setFilteredData(filteredData);
+    };
 
    
   useEffect(() => {
@@ -111,6 +127,23 @@ const RegularTables = () => {
                   />
                   supporteur
                 </CardTitle>
+                {/* searchInput form */}
+                <form>
+                  <InputGroup className="no-border">
+                    <Input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchText}
+                      onChange={(e) => handleSearch(e.target.value)}
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="now-ui-icons ui-1_zoom-bold" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+                {/* end searchInput form */}
                             </CardHeader>
                             <CardBody>
                                 <Table responsive>
@@ -128,7 +161,8 @@ const RegularTables = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {tContent.map((prop, key) => {
+                                    {filteredData.map((prop, key) => {
+
                                             return (
                                                 <tr key={key}>
                                                     {prop.data.map((prop, key) => {

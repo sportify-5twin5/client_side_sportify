@@ -46,7 +46,7 @@ function Footer(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            airgit
+            airfit
           </a>
           . Coded by{" keybord gods"}
           <a

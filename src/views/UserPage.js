@@ -26,6 +26,10 @@ import {
   Table,
   Row,
   Col,
+  InputGroup,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
 } from "reactstrap";
 
 // core components
@@ -39,6 +43,18 @@ const UserPage = () => {
   const [tContent, setContent] = useState([]);
   const [tkeysR, setKeysR] = useState([]);
   const [tContentR, setContentR] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (searchInput) => {
+    setSearchText(searchInput);
+    const filteredData = tContent.filter((item) =>
+      item.data.some((value) =>
+        value.toLowerCase().includes(searchInput.toLowerCase())
+      )
+    );
+    setFilteredData(filteredData);
+  };
 
   useEffect(() => {
     // Fetch data for the "trophee" table
@@ -117,6 +133,23 @@ const UserPage = () => {
                 />
                 joueurs
               </CardTitle>
+               {/* searchInput form */}
+               <form>
+                  <InputGroup className="no-border">
+                    <Input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchText}
+                      onChange={(e) => handleSearch(e.target.value)}
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="now-ui-icons ui-1_zoom-bold" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+                {/* end searchInput form */}
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
@@ -133,7 +166,7 @@ const UserPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tContent.map((prop, key) => {
+                  {filteredData.map((prop, key) => {
                       return (
                         <tr key={key}>
                           {prop.data.map((prop, key) => {
